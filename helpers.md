@@ -93,6 +93,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 <div class="collection-method-list" markdown="1">
 
 [Number::abbreviate](#method-number-abbreviate)
+[Number::bitRate](#method-number-bit-rate)
 [Number::clamp](#method-number-clamp)
 [Number::currency](#method-number-currency)
 [Number::defaultCurrency](#method-default-currency)
@@ -1208,6 +1209,25 @@ The `Number::abbreviate` method returns the human-readable format of the provide
 
     // 1.23M
 
+<a name="method-number-bit-rate"></a>
+#### `Number::bitRate()` {.collection-method}
+
+The `Number::bitRate` method returns the bitrate representation of the given bite value as a string:
+
+    use Illuminate\Support\Number;
+
+    $rate = Number::bitRate(1000);
+
+    // 1 Kbps
+
+    $rate = Number::bitRate(1000 * 1000);
+
+    // 1 Mbps
+
+    $rate = Number::bitRate(1024, precision: 2);
+
+    // 1.00 Kbps
+
 <a name="method-number-clamp"></a>
 #### `Number::clamp()` {.collection-method}
 
@@ -1542,7 +1562,7 @@ The `lang_path` function returns the fully qualified path to your application's 
 
     $path = lang_path('en/messages.php');
 
-> [!NOTE]  
+> [!NOTE]
 > By default, the Laravel application skeleton does not include the `lang` directory. If you would like to customize Laravel's language files, you may publish them via the `lang:publish` Artisan command.
 
 <a name="method-mix"></a>
@@ -1903,7 +1923,7 @@ The `env` function retrieves the value of an [environment variable](/docs/{{vers
 
     $env = env('APP_ENV', 'production');
 
-> [!WARNING]  
+> [!WARNING]
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded and all calls to the `env` function will return `null`.
 
 <a name="method-event"></a>
@@ -2596,12 +2616,12 @@ $user = Pipeline::send($user)
     ->through([
         function (User $user, Closure $next) {
             // ...
-    
+
             return $next($user);
         },
         function (User $user, Closure $next) {
             // ...
-    
+
             return $next($user);
         },
     ])
